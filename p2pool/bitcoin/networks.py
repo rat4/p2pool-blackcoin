@@ -22,45 +22,45 @@ def get_subsidy(bitcoind, target):
     defer.returnValue(res)
 
 nets = dict(
-    novacoin=math.Object(
-        P2P_PREFIX='e4e8e9e5'.decode('hex'),
-        P2P_PORT=7777,
-        ADDRESS_VERSION=8,
-        RPC_PORT=8344,
+    blackcoin=math.Object(
+        P2P_PREFIX='70352205'.decode('hex'),
+        P2P_PORT=15714,
+        ADDRESS_VERSION=25,
+        RPC_PORT=15715,
         RPC_CHECK=defer.inlineCallbacks(lambda bitcoind: defer.returnValue(
-            0 == (yield bitcoind.rpc_getblock('00000a060336cbb72fe969666d337b87198b1add2abaa59cca226820b32933a4'))['height'] and
+            'blackcoinaddress' in (yield bitcoind.rpc_help()) and
             not (yield bitcoind.rpc_getinfo())['testnet']
         )),
-        SUBSIDY_FUNC=lambda bitcoind, target: get_subsidy(bitcoind, target),
-        BLOCK_PERIOD=600, # s
-        SYMBOL='NVC',
-        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'NovaCoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/NovaCoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.novacoin'), 'novacoin.conf'),
-        BLOCK_EXPLORER_URL_PREFIX='http://explorer.novaco.in/block/',
-        ADDRESS_EXPLORER_URL_PREFIX='http://explorer.novaco.in/address/',
-        TX_EXPLORER_URL_PREFIX='http://explorer.novaco.in/tx/',
+        SUBSIDY_FUNC=lambda bitcoind, target: 10000*100000000,
+        BLOCK_PERIOD=60, # s
+        SYMBOL='BC',
+        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'BlackCoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/BlackCoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.blackcoin'), 'blackcoin.conf'),
+        BLOCK_EXPLORER_URL_PREFIX='http://explorer/block/',
+        ADDRESS_EXPLORER_URL_PREFIX='http://explorer/address/',
+        TX_EXPLORER_URL_PREFIX='http://explorer/tx/',
         SANE_TARGET_RANGE=(2**256//1000000000 - 1, 2**256//1000 - 1),
         DUMB_SCRYPT_DIFF=2**16,
-        DUST_THRESHOLD=0.01e6,
+        DUST_THRESHOLD=0.01e8,
     ),
-    novacoin_testnet=math.Object(
+    blackcoin_testnet=math.Object(
         P2P_PREFIX='cdf2c0ef'.decode('hex'),
-        P2P_PORT=17777,
+        P2P_PORT=25714,
         ADDRESS_VERSION=111,
-        RPC_PORT=18344,
+        RPC_PORT=25715,
         RPC_CHECK=defer.inlineCallbacks(lambda bitcoind: defer.returnValue(
-            0 == (yield bitcoind.rpc_getblock('0000c763e402f2436da9ed36c7286f62c3f6e5dbafce9ff289bd43d7459327eb'))['height'] and
+            'blackcoinaddress' in (yield bitcoind.rpc_help()) and
             (yield bitcoind.rpc_getinfo())['testnet']
         )),
-        SUBSIDY_FUNC=lambda bitcoind, target: get_subsidy(bitcoind, target),
-        BLOCK_PERIOD=600, # s
-        SYMBOL='tNVC',
-        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'NovaCoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/NovaCoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.novacoin'), 'novacoin.conf'),
-        BLOCK_EXPLORER_URL_PREFIX='http://novacoin.su/block/',
-        ADDRESS_EXPLORER_URL_PREFIX='http://novacoin.su/address/',
-        TX_EXPLORER_URL_PREFIX='http://novacoin.su/tx/',
+        SUBSIDY_FUNC=lambda bitcoind, target: 10000*100000000,
+        BLOCK_PERIOD=60, # s
+        SYMBOL='BC',
+        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'BlackCoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/BlackCoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.blackcoin'), 'blackcoin.conf'),
+        BLOCK_EXPLORER_URL_PREFIX='http://testnet/block/',
+        ADDRESS_EXPLORER_URL_PREFIX='http://testnet/address/',
+        TX_EXPLORER_URL_PREFIX='http://testnet/tx/',
         SANE_TARGET_RANGE=(2**256//1000000000 - 1, 2**256//1000 - 1),
         DUMB_SCRYPT_DIFF=2**16,
-        DUST_THRESHOLD=0.01e6,
+        DUST_THRESHOLD=0.01e8,
     ),
 )
 for net_name, net in nets.iteritems():
