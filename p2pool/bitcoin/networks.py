@@ -35,9 +35,9 @@ nets = dict(
         BLOCK_PERIOD=60, # s
         SYMBOL='BC',
         CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'BlackCoin') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/BlackCoin/') if platform.system() == 'Darwin' else os.path.expanduser('~/.blackcoin'), 'blackcoin.conf'),
-        BLOCK_EXPLORER_URL_PREFIX='http://explorer/block/',
-        ADDRESS_EXPLORER_URL_PREFIX='http://explorer/address/',
-        TX_EXPLORER_URL_PREFIX='http://explorer/tx/',
+        BLOCK_EXPLORER_URL_PREFIX='http://blocks.blackcoin.pw/block/',
+        ADDRESS_EXPLORER_URL_PREFIX='http://blocks.blackcoin.pw/address/',
+        TX_EXPLORER_URL_PREFIX='http://blocks.blackcoin.pw/tx/',
         SANE_TARGET_RANGE=(2**256//1000000000 - 1, 2**256//1000 - 1),
         DUMB_SCRYPT_DIFF=2**16,
         DUST_THRESHOLD=0.01e8,
